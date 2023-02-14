@@ -18,12 +18,12 @@ public static class SaveGame
         {
             if (File.Exists(path))
             {
-                Debug.Log("Data exists. Deleting old file and writing a new one!");
+                Debug.Log("[Save Game]: Data exists. Deleting old file and writing a new one!");
                 File.Delete(path);
             }
             else
             {
-                Debug.Log("Writing file for the first time!");
+                Debug.Log("[Save Game]: Writing file for the first time!");
             }
             
             using FileStream stream = File.Create(path);
@@ -45,7 +45,7 @@ public static class SaveGame
         }
         catch (Exception e)
         {
-            Debug.Log($"Unable to save data due to: {e.Message} {e.StackTrace}");
+            Debug.Log($"[Save Game]: Unable to save data due to: {e.Message} {e.StackTrace}");
             return false;
         }
     }
@@ -57,7 +57,7 @@ public static class SaveGame
 
         if (!File.Exists(path))
         {
-            Debug.LogWarning($"Cannot load file at {path}. <color=red>File does not exist!</color>");
+            Debug.LogWarning($"[Save Game]: Cannot load file at {path}. <color=red>File does not exist!</color>");
             //throw new FileLoadException($"{path} does not exist!");
             return default;
         }
@@ -73,7 +73,7 @@ public static class SaveGame
         }
         catch (Exception e)
         {
-            Debug.LogError($"Failed to load data due to: {e.Message} {e.StackTrace}");
+            Debug.LogError($"[Save Game]: Failed to load data due to: {e.Message} {e.StackTrace}");
             throw e;
         }
     }
@@ -87,21 +87,26 @@ public static class SaveGame
         {
             if (File.Exists(path))
             {
-                Debug.Log($"Deleting {path} file!");
+                Debug.Log($"[Save Game]: Deleting {path} file!");
                 File.Delete(path);
             }
             else
             {
-                Debug.Log($"{path} does not exist");
+                Debug.Log($"[Save Game]: {path} does not exist");
             }
         }
         catch (Exception e)
         {
-            Debug.Log($"Unable to delete data due to: {e.Message} {e.StackTrace}");
+            Debug.Log($"[Save Game]: Unable to delete data due to: {e.Message} {e.StackTrace}");
         }
     }
     private static void WriteEncryptedData<T>(T data, FileStream stream)
     {
+        if (string.IsNullOrEmpty(KEY) || string.IsNullOrEmpty(IV))
+        {
+            Debug.LogError("[Save Game]: KEY or IV is Null or empty");
+            return;
+        }
         using Aes aesProvider = Aes.Create();
         aesProvider.Key = Convert.FromBase64String(KEY); // You can generate KEY and IV in Menu Save System>Generate KEY and IV
         aesProvider.IV = Convert.FromBase64String(IV);
@@ -117,6 +122,12 @@ public static class SaveGame
 
     private static T ReadEncryptedData<T>(string path)
     {
+        if (string.IsNullOrEmpty(KEY) || string.IsNullOrEmpty(IV))
+        {
+            Debug.LogError("[Save Game]: KEY or IV is Null or empty");
+            return default;
+        }
+        
         byte[] filBytes = File.ReadAllBytes(path);
         using Aes  aesProvider = Aes.Create();
         aesProvider.Key = Convert.FromBase64String(KEY);
