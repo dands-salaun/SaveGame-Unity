@@ -35,7 +35,10 @@ public static class SaveGame
             else
             {
                 stream.Close();
-                File.WriteAllText(path, JsonConvert.SerializeObject(data, Formatting.Indented));
+                File.WriteAllText(path, JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
             }
             
             return true;
@@ -106,7 +109,10 @@ public static class SaveGame
         using ICryptoTransform cryptoTransform = aesProvider.CreateEncryptor();
         using CryptoStream cryptoStream = new CryptoStream(stream, cryptoTransform, CryptoStreamMode.Write);
         
-        cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(data)));
+        cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        })));
     }
 
     private static T ReadEncryptedData<T>(string path)
