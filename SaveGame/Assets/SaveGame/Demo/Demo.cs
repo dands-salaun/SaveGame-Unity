@@ -22,9 +22,9 @@ public class Demo : MonoBehaviour
     {
         PlayerStats playerStats = new PlayerStats();
 
-        playerStats.name = inputName.text;
-        playerStats.health = Int32.Parse(inputHealth.text);
-        playerStats.level = Int32.Parse(inputLevel.text);
+        playerStats.name = "Link";
+        playerStats.health = 10;
+        playerStats.level = 1;
 
         SaveGame.SaveData("playerstats", playerStats, encode);
     }

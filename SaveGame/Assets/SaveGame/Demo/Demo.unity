@@ -917,13 +917,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 772b8f190dc4fe943a6e2aecad68ab6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  encode: 1
   inputName: {fileID: 908658189}
   inputHealth: {fileID: 888207722}
   inputLevel: {fileID: 483697349}
   tName: {fileID: 1263134861}
   tHealth: {fileID: 2063078419}
   tLevel: {fileID: 765626865}
-  encryptedSave: 1
 --- !u!4 &551994255
 Transform:
   m_ObjectHideFlags: 0

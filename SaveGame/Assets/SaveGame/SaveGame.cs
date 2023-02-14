@@ -7,8 +7,8 @@ using UnityEngine;
 
 public static class SaveGame
 {
-    private const string KEY = "5qCnpHTp9+6VcGksBl1yo5E8hxqiYxtsnm6CrBmsNtU="; // You can generate KEY and IV in Menu Save System>Generate KEY and IV
-    private const string IV = "6Nv+0YV+PLoVksp589O89g==";
+    private const string KEY = ""; // You can generate KEY and IV in Menu Save System>Generate KEY and IV
+    private const string IV = "";
     public static bool SaveData<T>(string relativePath, T data, bool encode = false)
     {
         string path = encode ? Path.Combine(Application.persistentDataPath, relativePath + "_enc") :
